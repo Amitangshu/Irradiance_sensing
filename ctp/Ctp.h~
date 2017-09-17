@@ -1,0 +1,102 @@
+/* $Id: Ctp.h,v 1.7 2009-08-10 23:50:06 scipio Exp $ */
+
+/*
+ * Copyright (c) 2006 Stanford University.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the
+ *   distribution.
+ * - Neither the name of the Stanford University nor the names of
+ *   its contributors may be used to endorse or promote products derived
+ *   from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL STANFORD
+ * UNIVERSITY OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ *  Header file that declares the AM types, message formats, and
+ *  constants for the TinyOS reference implementation of the
+ *  Collection Tree Protocol (CTP), as documented in TEP 123.
+ *
+ *  @author Philip Levis
+ *  @date   $Date: 2009-08-10 23:50:06 $
+ */
+
+#ifndef CTP_H
+#define CTP_H
+
+#include <Collection.h>
+#include <AM.h>
+
+#define UQ_CTP_CLIENT "CtpSenderC.CollectId"
+
+int I_Rt=25, T_Rt=140;
+int I_Dt=25, T_Dt=140;
+int I_p=25,   T_p=7;
+int I_Rr=25, T_Rr=140;
+int I_Dr=25, T_Dr=140;
+double I_s_temp=1, T_s_temp=250;
+double I_s=7.5, T_s=2;
+uint16_t rate_RUI=0, rate_FWD=0, rate_RUI_RECV=0, rate_OVERHEAR=0, rate_SENSE=0, rate_RCV=0;
+uint16_t event_RUI=0, event_FWD=0, event_RUI_RECV=0, event_OVERHEAR=0, event_OVERHEAR_CTRL=0, event_SENSE=0, event_RCV=0;
+//double I;
+//double Life;
+//int cap=5000, C;
+uint16_t rate_RUI_p=5, rate_FWD_p=5, rate_RUI_RECV_p=5, rate_OVERHEAR_p=5, rate_SENSE_p=5, rate_RCV_p=5;
+uint16_t rate_RUI_5_min=0, rate_FWD_5_min=0, rate_RUI_RECV_5_min=0, rate_OVERHEAR_5_min=0, rate_SENSE_5_min=0, rate_RCV_5_min=0;
+uint16_t Life=999;
+double I;
+int percent_cap;
+
+enum {
+    // AM types:
+    AM_CTP_ROUTING = 0x70,
+    AM_CTP_DATA    = 0x71,
+    AM_CTP_DEBUG   = 0x72,
+
+    // CTP Options:
+    CTP_OPT_PULL      = 0x80, // TEP 123: P field
+    CTP_OPT_ECN       = 0x40, // TEP 123: C field
+    CTP_OPT_ALL       = 0xff
+};
+
+typedef nx_uint8_t nx_ctp_options_t;
+typedef uint8_t ctp_options_t;
+
+typedef nx_struct {
+  nx_ctp_options_t    options;
+  nx_uint8_t          thl;
+  nx_uint16_t         etx;
+  nx_am_addr_t        origin;
+  nx_uint8_t          originSeqNo;
+  nx_collection_id_t  type;
+  nx_uint8_t (COUNT(0) data)[0]; // Deputy place-holder, field will probably be removed when we Deputize Ctp
+} ctp_data_header_t;
+
+typedef nx_struct {
+  nx_ctp_options_t    options;
+  nx_am_addr_t        parent;
+  nx_uint16_t         etx;
+  //nx_uint16_t	      voltage;
+  nx_uint8_t (COUNT(0) data)[0]; // Deputy place-holder, field will probably be removed when we Deputize Ctp
+} ctp_routing_header_t;
+
+#endif
