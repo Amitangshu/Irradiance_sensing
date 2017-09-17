@@ -2,7 +2,7 @@
 Irradiance sensing with MDA300 data acquisition board and MICAz motes in EPIC-RoofNet
 
 
-#Description
+#Description:
 The EPIC-RoofNet was deployed in the roof of the Energy Production and Infrastructure Center (EPIC) building at UNC Charlotte
 to provide an experimental platform for this research. EPIC-RoofNet has been designed primarily with two objectives. Firstly, it comprises of a set of pyranometer sensor nodes that are essential to obtain solar irradiance data from wireless sensor nodes placed in outdoor settings. This data is used for developing statistical models characterizing the spatial and temporal variations of solar energy available at the nodes. Secondly, it is used for a platform for experimental validation and performance evaluation of adaptive network protocols and energy-conservation schemes that is the focus of this research. 
 
